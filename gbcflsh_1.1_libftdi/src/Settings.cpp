@@ -12,13 +12,13 @@
 #include <math.h>
 
 bool
-  Settings::commanual = FALSE;
+  Settings::commanual = false;
 alg_t
   Settings::algorythm = ALG16;
 dap_t
   Settings::dap = TOGGLE;
 bool
-  Settings::showbbl = FALSE;
+  Settings::showbbl = false;
 speed_type
   Settings::speed = STANDARD;
 QThread::Priority Settings::priority = QThread::NormalPriority;
@@ -135,7 +135,7 @@ Settings::Settings (QWidget * parent):QGroupBox (tr ("Settings"), parent) {
   all->addLayout (down);
   setLayout (all);
 
-  auto_size = TRUE;
+  auto_size = true;
   mbc = MBCAUTO;
   ram_size = 8;
   flash_size = 512;
@@ -304,7 +304,7 @@ Settings::setLang (const QString & lang)
 
 void Settings::setAuto (int state) {
   if (state == Qt::Checked)
-    auto_size = TRUE;
+    auto_size = true;
   else
-    auto_size = FALSE;
+    auto_size = false;
 }

@@ -22,7 +22,7 @@ parse_params (int /*argc*/, char *argv[])
     {
 /* disable auto com search in windows */
       if (strcmp (*argv, "-commanual") == 0)
-	Settings::commanual = TRUE;
+	Settings::commanual = true;
 /* additional communication params */
       if (strcmp (*argv, "-12bit") == 0)
 	Settings::algorythm = ALG12;
@@ -33,7 +33,7 @@ parse_params (int /*argc*/, char *argv[])
       if (strcmp (*argv, "-datapoll") == 0)
 	Settings::dap = DATAPOLL;
       if (strcmp (*argv, "-showbbl") == 0)
-	Settings::showbbl = TRUE;
+	Settings::showbbl = true;
 /*
  * USB speed LOW 125000bps HI 375000
  */
@@ -105,7 +105,7 @@ main (int argc, char *argv[])
  * is langname in filename. Lang selected with ComboBox is saved in 
  * selected_lang record as langname.
  */
-  QTextCodec::setCodecForTr (QTextCodec::codecForName ("UTF-8"));
+  QTextCodec::setCodecForLocale (QTextCodec::codecForName ("UTF-8"));
   QString langName = settings.value("selected_lang").toString ();
   QString langPath = settings.value("lang_path").toString();
   if(langPath == "")

@@ -17,7 +17,7 @@ public:
   Console (QWidget * parent):QTextEdit (parent)
   {
     this->setMinimumWidth (400);
-    this->setReadOnly (TRUE);
+    this->setReadOnly (true);
     QPalette palette;
       palette.setColor (QPalette::Base, QColor (0, 255, 0));
       this->setPalette (palette);

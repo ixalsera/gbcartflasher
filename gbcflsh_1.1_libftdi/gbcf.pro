@@ -68,4 +68,7 @@ macx {
   SOURCES += src/USBPortMac.cpp 
   HEADERS += src/USBPortMac.h
   LIBS += -L/usr/local/lib -lftdi1
+  CONFIG += sdk_no_version_check
 }
+
+QT += widgets
