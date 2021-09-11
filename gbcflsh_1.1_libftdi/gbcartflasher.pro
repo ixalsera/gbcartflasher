@@ -6,6 +6,9 @@ TEMPLATE = app
 TARGET = gbcartflasher
 QT += widgets
 INCLUDEPATH += .
+OBJECTS_DIR = build
+MOC_DIR = build
+DESTDIR = release
 
 # You can make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -52,12 +55,15 @@ win32 {
              src/USBPortWin.h
   LIBS += -lftd2xx
 }
+unix: {
+  CONFIG += link_pkgconfig
+  PKGCONFIG += libftdi1
+}
 unix:!macx {
   SOURCES += src/SerialPort.cpp \
              src/USBPort.cpp
   HEADERS += src/SerialPort.h \
              src/USBPort.h
-  LIBS += -L/usr/local/lib -lftdi1
   langpack.extra = lrelease gbcf.pro
   langpack.path = /usr/share/gbcf
   langpack.files = src/*.qm
@@ -70,5 +76,4 @@ unix:!macx {
 macx {
   SOURCES += src/USBPortMac.cpp
   HEADERS += src/USBPortMac.h
-  LIBS += -L/usr/local/lib -lftdi1
 }
