@@ -99,9 +99,9 @@ main (int argc, char *argv[])
  * Default language for application is English. It can be canged with
  * files containing compiled QT translations. All files have same naming
  * convention gbcflsh_langname.qm i.e. gbcflsh_polish.qm. Program knows
- * about them, thanks to [lang] group in settings file/registry. Every lang
+ * about them, thanks to [i18n] group in settings file/registry. Every i18n
  * is represented as single setting i.e. polish=Polski. This record contains
- * pair of key=value, where value is name of lang shown in ComboBox and key
+ * pair of key=value, where value is name of i18n shown in ComboBox and key
  * is langname in filename. Lang selected with ComboBox is saved in 
  * selected_lang record as langname.
  */

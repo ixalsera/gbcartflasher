@@ -269,7 +269,7 @@ Settings::get_langs() {
   QSettings settings;
   int selectedIndex = 0;
   QString selectedLang = settings.value("selected_lang").toString();
-  settings.beginGroup("lang");
+  settings.beginGroup("i18n");
   QStringList keys = settings.childKeys();
 
   for (int i = 0; i < keys.size(); ++i) {
@@ -286,7 +286,7 @@ void
 Settings::setLang (const QString & lang)
 {
   QSettings settings;
-  settings.beginGroup("lang");
+  settings.beginGroup("i18n");
   QString langFileName = settings.value("selected_lang").toString();
   QStringList keys = settings.childKeys();
   for (int i = 0; i < keys.size(); ++i) {
