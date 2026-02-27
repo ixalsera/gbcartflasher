@@ -11,34 +11,34 @@
 #include <QPalette>
 #include <QColor>
 
-class Console:public QTextEdit
+class Console : public QTextEdit
 {
 public:
-  Console (QWidget * parent):QTextEdit (parent)
-  {
-    this->setMinimumWidth (400);
-    this->setReadOnly (true);
-    QPalette palette;
-      palette.setColor (QPalette::Base, QColor (0, 255, 0));
-      this->setPalette (palette);
-    QFont font ("Courier");
-      font.setPointSize (8);
-      this->setFont (font);
-  }
+    Console(QWidget* parent) : QTextEdit(parent)
+    {
+        this->setMinimumWidth(400);
+        this->setReadOnly(true);
+        QPalette palette;
+        palette.setColor(QPalette::Base, QColor(0, 255, 0));
+        this->setPalette(palette);
+        QFont font("Courier");
+        font.setPointSize(8);
+        this->setFont(font);
+    }
 
-  void print (QString string)
-  {
-    append (string);
-  }
+    void print(QString string)
+    {
+        append(string);
+    }
 
-  void line ()
-  {
-#ifdef Q_WS_X11
-    print ("<br>");
+    void line()
+    {
+#ifdef Q_OS_LINUX
+        print("<br>");
 #else
-    print ("<hr><br>");
+        print("<hr><br>");
 #endif
-  }
+    }
 };
 
 #endif

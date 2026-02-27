@@ -5,7 +5,7 @@
 #ifndef _USBPORTWIN_H_
 #define _USBPORTWIN_H_
 #include <windows.h>
-#include "AbstractPort.h"
+#include "../../AbstractPort.h"
 #include <ftd2xx.h>
 #include <time.h>
 

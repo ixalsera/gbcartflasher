@@ -44,17 +44,17 @@ TRANSLATIONS += src/translations/gbcflsh_english.ts \
                 src/translations/gbcflsh_polish.ts
 RC_FILE = src/res.rc
 win32 {
-SOURCES += src/SerialPortWin.cpp \
-           src/USBPortWin.cpp 
-HEADERS += src/headers/SerialPortWin.h \
-           src/headers/USBPortWin.h
+SOURCES += src/platform/windows/SerialPortWin.cpp \
+           src/platform/windows/USBPortWin.cpp
+HEADERS += src/headers/platform/windows/SerialPortWin.h \
+           src/headers/platform/windows/USBPortWin.h
 LIBS += -lftd2xx
 }
 unix {
-SOURCES += src/SerialPort.cpp \
-           src/USBPort.cpp 
-HEADERS += src/headers/SerialPort.h \
-           src/headers/USBPort.h
+SOURCES += src/platform/linux/SerialPort.cpp \
+           src/platform/linux/USBPort.cpp
+HEADERS += src/headers/platform/linux/SerialPort.h \
+           src/headers/platform/linux/USBPort.h
 LIBS += -lftdi
 langpack.extra = lrelease gbcf.pro
 langpack.path = /usr/share/gbcf

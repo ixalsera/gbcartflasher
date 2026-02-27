@@ -2,9 +2,9 @@
 ** USBPort.cpp
 ** Author: Kraku
 *****************************************************************************/
-#include "headers/const.h"
-#include "headers/USBPort.h"
-#include "headers/Settings.h"
+#include "../../headers/const.h"
+#include "../../headers/platform/linux/USBPort.h"
+#include "../../headers/Settings.h"
 #include <ftdi.h>
 #include <iostream>
 extern "C"

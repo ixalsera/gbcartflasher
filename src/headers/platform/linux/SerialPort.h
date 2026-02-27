@@ -1,22 +1,18 @@
 /*****************************************************************************
-** USBPort.h - USB driver for Linux based on libftdi
+** SerialPort.h - SerialPort driver for Linux/Posix based systems
 ** Author: Kraku
 *****************************************************************************/
-#ifndef _USBPORT_H_
-#define _USBPORT_H_
-#include "AbstractPort.h"
-#include <ftdi.h>
+#ifndef _SERIALPORT_H_
+#define _SERIALPORT_H_
+#include "../../AbstractPort.h"
 
-
-class USBPort:public AbstractPort
+class SerialPort:public AbstractPort
 {
 Q_OBJECT
-  struct ftdi_context ftdic;
-  FILE *file;
-
+  int descriptor;
   bool opened;
 public:
-  USBPort ();
+  SerialPort ();
   bool open_port (QString port_name);
   bool close_port ();
   int receive_char ();

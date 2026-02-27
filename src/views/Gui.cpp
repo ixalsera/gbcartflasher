@@ -11,14 +11,14 @@
 #include "../headers/About.h"
 
 
-#ifdef Q_WS_X11
-#include "SerialPort.h"
-#include "USBPort.h"
+#ifdef Q_OS_LINUX
+#include "../headers/platform/linux/SerialPort.h"
+#include "../headers/platform/linux/USBPort.h"
 #endif
 
-#ifdef Q_WS_WIN
-#include "USBPortWin.h"
-#include "SerialPortWin.h"
+#ifdef Q_OS_WIN
+#include "../headers/platform/windows/USBPortWin.h"
+#include "../headers/platform/windows/SerialPortWin.h"
 #endif
 
 #include "../headers/const.h"
@@ -127,7 +127,7 @@ Gui::Gui(QWidget* parent) : QWidget(parent)
 	        SLOT(setRamButtons (void)));
 	setProgress(0, 1);
 	console->print(tr("GB Cart Flasher version ") + VER + tr(" started."));
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
 	/* device detection is avilable only on Windows */
 	if (Settings::commanual == false)
 	{
@@ -142,17 +142,17 @@ Gui::create_port(void)
 	switch (port_type)
 	{
 	case USB:
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
 		return new USBPortWin;
 #endif
-#ifdef Q_WS_X11
+#ifdef Q_OS_LINUX
 		return new USBPort;
 #endif
 	case SERIAL:
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
 		return new SerialPortWin;
 #endif
-#ifdef Q_WS_X11
+#ifdef Q_OS_LINUX
 		return new SerialPort;
 #endif
 		break;

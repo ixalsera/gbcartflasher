@@ -2,8 +2,8 @@
 ** SerialPort.cpp
 ** Author: Kraku
 *****************************************************************************/
-#include "headers/const.h"
-#include "headers/SerialPort.h"
+#include "../../headers/const.h"
+#include "../../headers/platform/linux/SerialPort.h"
 
 extern "C"{
 #include <time.h>

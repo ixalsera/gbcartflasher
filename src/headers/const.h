@@ -7,7 +7,9 @@
 
 /* control characters */
 enum cchars
-{ ACK = 0xAA, NAK = 0xF0, END = 0x0F, DATA = 0x55 };
+{
+    ACK = 0xAA, NAK = 0xF0, END = 0x0F, DATA = 0x55
+};
 
 #define SLEEPTIME 3		/* time to wait for connection in sec. */
 #define DELTIME 60		/* time to wait for delete in sec. */
@@ -21,21 +23,22 @@ enum cchars
 #define SERIAL 1
 
 /* strings for version information */
-#ifdef Q_WS_X11
+#ifdef Q_OS_LINUX
 #define SYSTEM "LINUX"
 #define DEVELOPED "GCC 4.1.1 + QT 4.3.2"
 #endif
 
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
 #define SYSTEM "WINDOWS"
 #define DEVELOPED "Dev-C++ 4.9.9.2 + QT 4.3.2"
 #endif
 
 /* return values and errors */
 enum
-{ TIMEOUT = -1, FILEERROR_O = -2, FILEERROR_W = -3, FILEERROR_R =
+{
+    TIMEOUT = -1, FILEERROR_O = -2, FILEERROR_W = -3, FILEERROR_R =
     -4, SEND_ERROR = -5,
-  BAD_PACKET = -6, BAD_PARAMS = -7, PORT_ERROR = -8, WRONG_SIZE = -9
+    BAD_PACKET = -6, BAD_PARAMS = -7, PORT_ERROR = -8, WRONG_SIZE = -9
 };
 
 /* packet types */
@@ -58,18 +61,26 @@ enum
 #define ERAM 0x01
 
 
-
 enum alg_t
-{ ALG16 = 0x00, ALG12 = 0x01 };
+{
+    ALG16 = 0x00, ALG12 = 0x01
+};
+
 enum dap_t
-{ LONGER = 0x00, DEFAULT = 0x01, DATAPOLL = 0x02, TOGGLE = 0x03 };
+{
+    LONGER = 0x00, DEFAULT = 0x01, DATAPOLL = 0x02, TOGGLE = 0x03
+};
+
 enum speed_type
-{ LOW = 0x00, STANDARD = 0x01, HIGH = 0x02 };
+{
+    LOW = 0x00, STANDARD = 0x01, HIGH = 0x02
+};
 
 /* MBC types */
 enum mbc_t
-{ MBCAUTO = 0x00, MBC1 = 0x01, MBC2 = 0x02, MBC3 = 0x03,
-  ROMONLY = 0x04, MBC5 = 0x05, RUMBLE = 0x06
+{
+    MBCAUTO = 0x00, MBC1 = 0x01, MBC2 = 0x02, MBC3 = 0x03,
+    ROMONLY = 0x04, MBC5 = 0x05, RUMBLE = 0x06
 };
 
 #endif
