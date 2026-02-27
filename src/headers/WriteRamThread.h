@@ -2,8 +2,8 @@
 ** WriteRamThread.h
 ** Author: Kraku
 *****************************************************************************/
-#ifndef _WRITERAMTHREAD_H_
-#define _WRITERAMTHREAD_H_
+#ifndef WRITERAMTHREAD_H
+#define WRITERAMTHREAD_H
 
 #include <QThread>
 #include "AbstractPort.h"

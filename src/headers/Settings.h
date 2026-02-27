@@ -2,8 +2,8 @@
 ** Settings.h - configuration widget
 ** Author: Kraku
 *****************************************************************************/
-#ifndef _SETTINGS_H_
-#define _SETTINGS_H_
+#ifndef SETTINGS_H
+#define SETTINGS_H
 
 #include <QGroupBox>
 #include <QComboBox>

@@ -2,10 +2,13 @@
 ** USBPort.h - USB driver for Linux based on libftdi
 ** Author: Kraku
 *****************************************************************************/
-#ifndef _USBPORT_H_
-#define _USBPORT_H_
-#include "../../AbstractPort.h"
+#ifndef USBPORT_H
+#define USBPORT_H
+
 #include <ftdi.h>
+// ReSharper disable once CppUnusedIncludeDirective
+#include <QObject>
+#include "../../AbstractPort.h"
 
 
 class USBPort : public AbstractPort

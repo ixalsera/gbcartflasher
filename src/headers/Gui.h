@@ -2,8 +2,8 @@
 ** Gui.h - class of main dialog window
 ** Author: Kraku
 *****************************************************************************/
-#ifndef _GUI_H_
-#define _GUI_H_
+#ifndef GUI_H
+#define GUI_H
 
 #include <QWidget>
 #include <QProgressBar>
