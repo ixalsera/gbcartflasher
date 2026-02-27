@@ -2,8 +2,8 @@
 ** About.h
 ** Author: Kraku
 *****************************************************************************/
-#ifndef _ABOUT_H_
-#define _ABOUT_H_
+#ifndef ABOUT_H
+#define ABOUT_H
 
 #include <QDialog>
 #include <QPushButton>

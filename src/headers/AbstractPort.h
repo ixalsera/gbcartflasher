@@ -2,8 +2,8 @@
 ** AbstractPort.h
 ** Author: Kraku
 *****************************************************************************/
-#ifndef _ABSTRACTPORT_H_
-#define _ABSTRACTPORT_H_
+#ifndef ABSTRACTPORT_H
+#define ABSTRACTPORT_H
 
 #include <QObject>
 #include <QString>
