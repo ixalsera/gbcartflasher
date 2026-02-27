@@ -2,10 +2,10 @@
 ** WriteFlashThread.cpp
 ** Author: Kraku
 *****************************************************************************/
-#include "WriteFlashThread.h"
-#include "Settings.h"
-#include "Logic.h"
-#include "const.h"
+#include "headers/WriteFlashThread.h"
+#include "headers/Settings.h"
+#include "headers/Logic.h"
+#include "headers/const.h"
 
 
 void

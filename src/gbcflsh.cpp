@@ -6,13 +6,10 @@
 #include <QApplication>
 #include <QTranslator>
 #include <QSettings>
-#include <QTimer>
 #include <QTextCodec>
-#include <QMessageBox>
-#include "Gui.h"
-#include "const.h"
-#include "Settings.h"
-#include <stdio.h>
+#include "headers/Gui.h"
+#include "headers/const.h"
+#include "headers/Settings.h"
 #include <iostream>
 
 void
@@ -92,8 +89,8 @@ main (int argc, char *argv[])
  * registry keys in Windows 
  * def. HKEY_CURRENT_USER\Software\GBCFProject/GameBoyCartFlasher.conf
  */
-  QCoreApplication::setOrganizationName ("GBCFProject");
-  QCoreApplication::setApplicationName ("GameBoyCartFlasher");
+  QCoreApplication::setOrganizationName ("gbcflash");
+  QCoreApplication::setApplicationName ("gbcflash");
   QSettings settings;
 /* 
  * Default language for application is English. It can be canged with
@@ -112,12 +109,12 @@ main (int argc, char *argv[])
   	langPath = "./";
   QTranslator translator;
   translator.load ( "gbcflsh_" + langName,langPath);
-  app.installTranslator (&translator);
+  QApplication::installTranslator (&translator);
 
   Gui window;
   window.show ();
 #ifdef Q_WS_WIN
   window.startup_info();
 #endif
-  return app.exec ();
+  return QApplication::exec ();
 }

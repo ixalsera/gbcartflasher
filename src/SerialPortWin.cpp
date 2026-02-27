@@ -2,10 +2,10 @@
 ** SerialPortWin.cpp
 ** Author: Kraku
 *****************************************************************************/
-#include "const.h"
-#include "AbstractPort.h"
-#include "SerialPortWin.h"
-#include "Settings.h"
+#include "headers/const.h"
+#include "headers/AbstractPort.h"
+#include "headers/SerialPortWin.h"
+#include "headers/Settings.h"
 
 extern "C"{
 #include <time.h>

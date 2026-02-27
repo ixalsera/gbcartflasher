@@ -2,9 +2,9 @@
 ** USBPortWin.cpp
 ** Author: Kraku
 *****************************************************************************/
-#include "const.h"
-#include "USBPortWin.h"
-#include "Settings.h"
+#include "headers/const.h"
+#include "headers/USBPortWin.h"
+#include "headers/Settings.h"
 
 extern "C"{
 #include <time.h>

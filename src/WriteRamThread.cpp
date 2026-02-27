@@ -2,10 +2,10 @@
 ** WriteRamThread.cpp
 ** Author: Kraku
 *****************************************************************************/
-#include "WriteRamThread.h"
-#include "Settings.h"
-#include "Logic.h"
-#include "const.h"
+#include "headers/WriteRamThread.h"
+#include "headers/Settings.h"
+#include "headers/Logic.h"
+#include "headers/const.h"
 
 
 void

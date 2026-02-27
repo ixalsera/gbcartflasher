@@ -2,10 +2,10 @@
 ** ReadFlashThread.cpp
 ** Author: Kraku
 *****************************************************************************/
-#include "ReadFlashThread.h"
-#include "Settings.h"
-#include "Logic.h"
-#include "const.h"
+#include "headers/ReadFlashThread.h"
+#include "headers/Settings.h"
+#include "headers/Logic.h"
+#include "headers/const.h"
 
 
 void
