@@ -14,7 +14,7 @@
 class Console : public QTextEdit
 {
 public:
-    Console(QWidget* parent) : QTextEdit(parent)
+    explicit Console(QWidget* parent) : QTextEdit(parent)
     {
         this->setMinimumWidth(400);
         this->setReadOnly(true);
@@ -26,7 +26,7 @@ public:
         this->setFont(font);
     }
 
-    void print(QString string)
+    void print(const QString& string)
     {
         append(string);
     }

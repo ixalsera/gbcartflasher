@@ -8,27 +8,31 @@
 #include <ftdi.h>
 
 
-class USBPort:public AbstractPort
+class USBPort : public AbstractPort
 {
-Q_OBJECT
-  struct ftdi_context ftdic;
-  FILE *file;
+    Q_OBJECT
+    struct ftdi_context ftdic{};
+    FILE* file{};
 
-  bool opened;
+    bool opened{};
+
 public:
-  USBPort ();
-  bool open_port (QString port_name);
-  bool close_port ();
-  int receive_char ();
-  bool send_char (unsigned char character);
-  int receive_packet (unsigned char *packet);
-  int send_packet (unsigned char *packet);
-  bool isOpen ()
-  {
-    return opened;
-  }
-signals:
-  void error (int err);
+    USBPort();
+    bool open_port(QString port_name);
+    bool close_port();
+    int receive_char();
+    bool send_char(unsigned char character);
+    int receive_packet(unsigned char* packet);
+    int send_packet(unsigned char* packet);
+
+    bool isOpen()
+    {
+        return opened;
+    }
+
+    signals :
+  
+    void error(int err);
 };
 
 #endif

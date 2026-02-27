@@ -2,31 +2,23 @@
 ** Settings.cpp
 ** Author: Kraku
 *****************************************************************************/
+#include <cmath>
 #include <QLabel>
-#include <QLayout>
-#include <QComboBox>
 #include <QMessageBox>
 #include <QSettings>
 #include "headers/Settings.h"
 #include "headers/Gui.h"
-#include <cmath>
 
-bool
-Settings::commanual = false;
-alg_t
-Settings::algorythm = ALG16;
-dap_t
-Settings::dap = TOGGLE;
-bool
-Settings::showbbl = false;
-speed_type
-Settings::speed = STANDARD;
+bool Settings::commanual = false;
+alg_t Settings::algorythm = ALG16;
+dap_t Settings::dap = TOGGLE;
+bool Settings::showbbl = false;
+speed_type Settings::speed = STANDARD;
 QThread::Priority Settings::priority = QThread::NormalPriority;
 
 Settings::Settings(QWidget* parent) : QGroupBox(tr("Settings"), parent)
 {
-    QSettings
-        set;
+    const QSettings set;
 
     labels = new QVBoxLayout();
     combo_boxes = new QVBoxLayout();
@@ -51,11 +43,9 @@ Settings::Settings(QWidget* parent) : QGroupBox(tr("Settings"), parent)
     }
     else
     {
-        // /dev/flasher can be symbolic link to device,
-        // if it's connected to some strange port
+        // /dev/flasher can be symbolic link to device if it's connected to some strange port
         com_combo->insertItem(3, "/dev/flasher");
     }
-    com_combo->insertItem(4, "USB");
 #endif
 
 #ifdef Q_OS_WIN
@@ -71,15 +61,16 @@ Settings::Settings(QWidget* parent) : QGroupBox(tr("Settings"), parent)
     {
         com_combo->insertItem(3, "COM4");
     }
-    com_combo->insertItem(4, "USB");
 #endif
 
+    com_combo->insertItem(4, "USB");
 
     mbc_label = new QLabel("MBC:", this);
 
     labels->addWidget(mbc_label);
     mbc_combo = new QComboBox(this);
     combo_boxes->addWidget(mbc_combo);
+    // TODO: Grab these from our declared list in Logic (or split out)
     mbc_combo->insertItem(0, "MBC AUTO");
     mbc_combo->insertItem(1, "MBC1");
     mbc_combo->insertItem(2, "MBC2");
@@ -92,6 +83,7 @@ Settings::Settings(QWidget* parent) : QGroupBox(tr("Settings"), parent)
     labels->addWidget(flash_label);
     flash_combo = new QComboBox(this);
     combo_boxes->addWidget(flash_combo);
+    // TODO: Grab these from our declared list in Logic (or split out)
     flash_combo->insertItem(0, "32 KB");
     flash_combo->insertItem(1, "64 KB");
     flash_combo->insertItem(2, "128 KB");
@@ -107,6 +99,7 @@ Settings::Settings(QWidget* parent) : QGroupBox(tr("Settings"), parent)
     labels->addWidget(ram_label);
     ram_combo = new QComboBox(this);
     combo_boxes->addWidget(ram_combo);
+    // TODO: Grab these from our declared list in Logic (or split out)
     ram_combo->insertItem(0, "2 KB");
     ram_combo->insertItem(1, "8 KB");
     ram_combo->insertItem(2, "32 KB");
@@ -144,15 +137,13 @@ Settings::Settings(QWidget* parent) : QGroupBox(tr("Settings"), parent)
     connect(flash_combo, SIGNAL(activated(int)), this,
             SLOT(setFlash(int)));
     connect(ram_combo, SIGNAL(activated(int)), this, SLOT(setRam(int)));
-    connect(lang_combo, SIGNAL(activated(const QString &)), this,
-            SLOT(setLang(const QString &)));
+    connect(lang_combo, SIGNAL(activated(QString)), this,
+            SLOT(setLang(QString)));
     connect(auto_check, SIGNAL(stateChanged(int)), this,
             SLOT(setAuto(int)));
 }
 
-
-void
-Settings::setCom(int index)
+void Settings::setCom(const int index)
 {
     com_name = getCom(index);
     com_combo->setCurrentIndex(index);
@@ -162,15 +153,13 @@ Settings::setCom(int index)
         Gui::port_type = USB;
 }
 
-void
-Settings::setFlash(int index)
+void Settings::setFlash(const int index)
 {
     /* size = 32 * 2 ^ index */
-    flash_size = 32 * (int)pow(2.0, (double)index);
+    flash_size = 32 * static_cast<int>(pow(2.0, index));
 }
 
-void
-Settings::setRam(int index)
+void Settings::setRam(const int index)
 {
     switch (index)
     {
@@ -189,10 +178,9 @@ Settings::setRam(int index)
     }
 }
 
-void
-Settings::setMbc(int mbc_nr)
+void Settings::setMbc(int mbc_nr)
 {
-    mbc = (mbc_t)mbc_nr;
+    mbc = static_cast<mbc_t>(mbc_nr);
     switch (mbc)
     {
     case MBCAUTO:
@@ -230,10 +218,9 @@ Settings::setMbc(int mbc_nr)
 }
 
 //fill ram_combo depending on cart type
-void
-Settings::ram_types(int type)
+void Settings::ram_types(const int type) const
 {
-    int ile = ram_combo->count();
+    const int ile = ram_combo->count();
     for (int i = ile - 1; i >= 0; i--)
         ram_combo->removeItem(i);
     switch (type)
@@ -254,28 +241,26 @@ Settings::ram_types(int type)
     }
 }
 
-void
-Settings::flash_types(int type)
+void Settings::flash_types(const int type) const
 {
-    int ile = flash_combo->count();
-    for (int i = ile - 1; i >= 0; i--)
+    const int count = flash_combo->count();
+    for (int i = count - 1; i >= 0; i--)
         flash_combo->removeItem(i);
 
     for (int i = 0; i <= type; i++)
     {
-        int pojemnosc = 32 * (int)pow(2.0, (double)i);
-        flash_combo->insertItem(i, QString::number(pojemnosc) + " KB");
+        const int capacity = 32 * static_cast<int>(pow(2.0, i));
+        flash_combo->insertItem(i, QString::number(capacity) + " KB");
     }
 }
 
-void
-Settings::get_langs()
+void Settings::get_langs() const
 {
     QSettings settings;
     int selectedIndex = 0;
-    QString selectedLang = settings.value("selected_lang").toString();
+    const QString selectedLang = settings.value("selected_lang").toString();
     settings.beginGroup("lang");
-    QStringList keys = settings.childKeys();
+    const QStringList keys = settings.childKeys();
 
     for (int i = 0; i < keys.size(); ++i)
     {
@@ -287,17 +272,16 @@ Settings::get_langs()
     lang_combo->setCurrentIndex(selectedIndex);
 }
 
-void
-Settings::setLang(const QString& lang)
+void Settings::setLang(const QString& lang)
 {
     QSettings settings;
     settings.beginGroup("lang");
     QString langFileName = settings.value("selected_lang").toString();
     QStringList keys = settings.childKeys();
-    for (int i = 0; i < keys.size(); ++i)
+    for (const auto& key : keys)
     {
-        if (lang == settings.value(keys.at(i)).toString())
-            langFileName = keys.at(i);
+        if (lang == settings.value(key).toString())
+            langFileName = key;
     }
     settings.endGroup();
     settings.setValue("selected_lang", langFileName);
@@ -308,8 +292,7 @@ Settings::setLang(const QString& lang)
                              + lang, QMessageBox::Ok);
 }
 
-void
-Settings::setAuto(int state)
+void Settings::setAuto(const int state)
 {
     if (state == Qt::Checked)
         auto_size = true;

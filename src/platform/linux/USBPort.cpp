@@ -2,160 +2,133 @@
 ** USBPort.cpp
 ** Author: Kraku
 *****************************************************************************/
+extern "C" {
+#include <time.h>
+#include <stdio.h>
+}
+
+#include <ftdi.h>
+#include <iostream>
+
 #include "../../headers/const.h"
 #include "../../headers/platform/linux/USBPort.h"
 #include "../../headers/Settings.h"
-#include <ftdi.h>
-#include <iostream>
-extern "C"
-{
-#include <time.h>
-#include <stdio.h>
-#include <stdlib.h>
 
+
+USBPort::USBPort() : AbstractPort()
+{
+    ftdi_init(&ftdic);
 }
 
-
-USBPort::USBPort ():
-AbstractPort ()
+bool USBPort::open_port(QString /*port_name*/)
 {
-  ftdi_init (&ftdic);
-}
-
-
-bool
-USBPort::open_port (QString /*port_name*/)
-{
-  if (ftdi_usb_open (&ftdic, 0x0403, 0x6001) < 0)
-    return false;
-/* choose speed */
-  if (Settings::speed == STANDARD)
+    if (int ret; (ret = ftdi_usb_open(&ftdic, 0x0403, 0x6001)) < 0)
     {
-      if (ftdi_set_baudrate (&ftdic, 185000) < 0)
-	return false;
+        fprintf(stderr, "unable to open ftdi device: %d (%s)\n", ret, ftdi_get_error_string(&ftdic));
+        ftdi_free(&ftdic);
+        return false;
     }
-  else if (Settings::speed == LOW)
+    /* choose speed */
+    if (Settings::speed == STANDARD)
     {
-      if (ftdi_set_baudrate (&ftdic, 125000) < 0)
-	return false;
+        if (ftdi_set_baudrate(&ftdic, 185000) < 0)
+            return false;
     }
-  else if (Settings::speed == HIGH)
+    else if (Settings::speed == LOW)
     {
-      if (ftdi_set_baudrate (&ftdic, 375000) < 0)
-	return false;
+        if (ftdi_set_baudrate(&ftdic, 125000) < 0)
+            return false;
+    }
+    else if (Settings::speed == HIGH)
+    {
+        if (ftdi_set_baudrate(&ftdic, 375000) < 0)
+            return false;
     }
 
-  if (ftdi_set_latency_timer (&ftdic, 2) < 0)
-    return false;
-  if (ftdi_set_line_property (&ftdic, BITS_8, STOP_BIT_1, NONE) < 0)
-    return false;
-  //if(FT_SetTimeouts(ftHandle,5000,0) != FT_OK)
-  //      return false;
-  //if(ftdi_enable_bitbang(&ftdic,0xFF) < 0)
-  //      return false;
+    if (ftdi_set_latency_timer(&ftdic, 2) < 0)
+        return false;
+    if (ftdi_set_line_property(&ftdic, BITS_8, STOP_BIT_1, NONE) < 0)
+        return false;
+    //if(FT_SetTimeouts(ftHandle,5000,0) != FT_OK)
+    //      return false;
+    //if(ftdi_enable_bitbang(&ftdic,0xFF) < 0)
+    //      return false;
 
-  return true;			/* all ok */
-
-
-
+    return true;
 }
 
-bool
-USBPort::close_port ()
+bool USBPort::close_port()
 {
-  ftdi_usb_close (&ftdic);
-  return true;
+    ftdi_usb_close(&ftdic);
+    return true;
 }
 
-int
-USBPort::send_packet (unsigned char packet[PACKETSIZE])
+int USBPort::send_packet(unsigned char packet[PACKETSIZE])
 {
-  int bytesSent;
-  bytesSent = ftdi_write_data (&ftdic, packet, PACKETSIZE);
-  return bytesSent;
-
+    return ftdi_write_data(&ftdic, packet, PACKETSIZE);
 }
 
 
-bool
-USBPort::send_char (unsigned char character)
+bool USBPort::send_char(unsigned char character)
 {
-  int bytesSent;
-
-  bytesSent = ftdi_write_data (&ftdic, &character, 1);
-  return bytesSent == 1;
-
+    return ftdi_write_data(&ftdic, &character, 1) == 1;
 }
 
-int
-USBPort::receive_char (void)
+int USBPort::receive_char()
 {
-  time_t tp = time (NULL);
-  unsigned char character;
-  int bytesReceived = 0;
-  do
+    time_t tp = time(nullptr);
+    unsigned char character;
+    int bytesReceived = 0;
+    do
     {
-      bytesReceived = ftdi_read_data (&ftdic, &character, 1);
-      if (bytesReceived != 0)
-	break;
+        bytesReceived = ftdi_read_data(&ftdic, &character, 1);
+        if (bytesReceived != 0)
+            break;
     }
-  while (time (NULL) - tp < SLEEPTIME);
+    while (time(nullptr) - tp < SLEEPTIME);
 
-  if (bytesReceived == 0)
-    return TIMEOUT;
-  if (character == ACK || character == END)
-    return character;
-  else
+    if (bytesReceived == 0)
+        return TIMEOUT;
+    if (character == ACK || character == END)
+        return character;
+
     return NAK;
-
 }
 
-int
-USBPort::receive_packet (unsigned char *packet)
+int USBPort::receive_packet(unsigned char* packet)
 {
-  time_t tp = time (NULL);
-  int bytesReceived = 0, bytesLeft;
-  do
+    time_t tp = time(nullptr);
+    int bytesReceived = 0;
+    do
     {
-      bytesReceived = ftdi_read_data (&ftdic, packet, 1);
+        bytesReceived = ftdi_read_data(&ftdic, packet, 1);
     }
-  while (time (NULL) - tp < SLEEPTIME && bytesReceived == 0);
-  if (bytesReceived == 0)
-    return TIMEOUT;
-  else
+    while (time(nullptr) - tp < SLEEPTIME && bytesReceived == 0);
+    if (bytesReceived == 0)
+        return TIMEOUT;
+
+    if (packet[0] != DATA)
     {
-      if (packet[0] != DATA)
-	{
-	  if (packet[0] == ACK)
-	    return ACK;
-	  else if (packet[0] == END)
-	    return END;
-	  else
-	    return NAK;
-	}
-      else
-	{
-	  unsigned int remaining = PACKETSIZE - 1;
-	  tp = time (NULL);
-	  bytesReceived = 0;
-	  do
-	    {
-	      bytesLeft = remaining;
-
-	      bytesReceived =
-		ftdi_read_data (&ftdic, &packet[PACKETSIZE - remaining],
-				bytesLeft);
-	      remaining -= bytesReceived;
-	      tp = time (NULL);
+        if (packet[0] == ACK)
+            return ACK;
+        if (packet[0] == END)
+            return END;
 
 
-
-	    }
-	  while (time (NULL) - tp < SLEEPTIME && remaining != 0);
-	  if (remaining > 0)
-	    return TIMEOUT;
-	  else
-	    return DATA;
-	}
+        return NAK;
     }
+    unsigned int remaining = PACKETSIZE - 1;
+    do
+    {
+        const int bytesLeft = remaining;
+
+        bytesReceived = ftdi_read_data(&ftdic, &packet[PACKETSIZE - remaining], bytesLeft);
+        remaining -= bytesReceived;
+        tp = time(nullptr);
+    }
+    while (time(nullptr) - tp < SLEEPTIME && remaining != 0);
+    if (remaining > 0)
+        return TIMEOUT;
+
+    return DATA;
 }

@@ -31,17 +31,12 @@ parse_params(int /*argc*/, char* argv[])
             Settings::dap = DATAPOLL;
         if (strcmp(*argv, "-showbbl") == 0)
             Settings::showbbl = true;
-        /*
- * USB speed LOW 125000bps HI 375000
- */
+        /* USB speed LOW 125000bps HI 375000 */
         if (strcmp(*argv, "-lowspeed") == 0)
             Settings::speed = LOW;
         if (strcmp(*argv, "-highspeed") == 0)
             Settings::speed = HIGH;
-        /* 
- * communication threads prioryty are used when communication 
- * or gui is freezing
- */
+        /* communication threads priority are used when communication or gui is freezing */
         if ((*argv)[0] == '-' && isdigit((*argv)[1]) && (*argv)[1] >= '0'
             && (*argv)[1] <= '7')
         {
@@ -56,9 +51,6 @@ parse_params(int /*argc*/, char* argv[])
             case 2:
                 Settings::priority = QThread::LowPriority;
                 break;
-            case 3:
-                Settings::priority = QThread::NormalPriority;
-                break;
             case 4:
                 Settings::priority = QThread::HighPriority;
                 break;
@@ -71,38 +63,40 @@ parse_params(int /*argc*/, char* argv[])
             case 7:
                 Settings::priority = QThread::InheritPriority;
                 break;
+            case 3:
+            default:
+                Settings::priority = QThread::NormalPriority;
+                break;
             }
         }
     }
 }
 
-
-int
-main(int argc, char* argv[])
+int main(int argc, char* argv[])
 {
-    parse_params(argc, argv);
     QApplication app(argc, argv);
+    parse_params(argc, argv);
     /*
- * Organization and aplication names are used for naming settings
- * file/directory in Linux def. ~/.config/GBCFProject/GameBoyCartFlasher.conf
- * registry keys in Windows 
- * def. HKEY_CURRENT_USER\Software\GBCFProject/GameBoyCartFlasher.conf
- */
+     * Organization and application names are used for naming settings
+     * file/directory in Linux def. ~/.config/gbcflash/gbcflash.conf
+     * registry keys in Windows
+     * def. HKEY_CURRENT_USER\Software\gbcflash/gbcflash.conf
+     */
     QCoreApplication::setOrganizationName("gbcflash");
     QCoreApplication::setApplicationName("gbcflash");
-    QSettings settings;
+    const QSettings settings;
     /* 
- * Default language for application is English. It can be canged with
- * files containing compiled QT translations. All files have same naming
- * convention gbcflsh_langname.qm i.e. gbcflsh_polish.qm. Program knows
- * about them, thanks to [lang] group in settings file/registry. Every lang
- * is represented as single setting i.e. polish=Polski. This record contains
- * pair of key=value, where value is name of lang shown in ComboBox and key
- * is langname in filename. Lang selected with ComboBox is saved in 
- * selected_lang record as langname.
- */
+     * Default language for application is English. It can be changed with
+     * files containing compiled QT translations. All files have same naming
+     * convention gbcflsh_langname.qm i.e. gbcflsh_polish.qm. Program knows
+     * about them, thanks to [lang] group in settings file/registry. Every lang
+     * is represented as single setting i.e. polish=Polski. This record contains
+     * pair of key=value, where value is name of lang shown in ComboBox and key
+     * is langname in filename. Lang selected with ComboBox is saved in
+     * selected_lang record as langname.
+     */
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
-    QString langName = settings.value("selected_lang").toString();
+    const QString langName = settings.value("selected_lang").toString();
     QString langPath = settings.value("lang_path").toString();
     if (langPath == "")
         langPath = "./";
@@ -112,8 +106,6 @@ main(int argc, char* argv[])
 
     Gui window;
     window.show();
-#ifdef Q_OS_WIN
     window.startup_info();
-#endif
     return QApplication::exec();
 }

@@ -14,94 +14,90 @@
 #include <QThread>
 #include "const.h"
 
-class Settings:public QGroupBox
+class Settings : public QGroupBox
 {
-  Q_OBJECT mbc_t mbc;
-  QString com_name;
-  int flash_size;
-  int ram_size;
-  bool auto_size;
-  QComboBox *com_combo;
-  QComboBox *mbc_combo;
-  QComboBox *flash_combo;
-  QComboBox *ram_combo;
-  QComboBox *lang_combo;
-  QLabel *com_label;
-  QLabel *mbc_label;
-  QLabel *flash_label;
-  QLabel *ram_label;
-  QLabel *lang_label;
-  QCheckBox *auto_check;
-  QVBoxLayout *labels, *combo_boxes;
-  QHBoxLayout *north, *down;
-  QVBoxLayout *all;
-
-
+    Q_OBJECT mbc_t mbc;
+    QString com_name;
+    int flash_size;
+    int ram_size;
+    bool auto_size;
+    QComboBox* com_combo;
+    QComboBox* mbc_combo;
+    QComboBox* flash_combo;
+    QComboBox* ram_combo;
+    QComboBox* lang_combo;
+    QLabel* com_label;
+    QLabel* mbc_label;
+    QLabel* flash_label;
+    QLabel* ram_label;
+    QLabel* lang_label;
+    QCheckBox* auto_check;
+    QVBoxLayout *labels, *combo_boxes;
+    QHBoxLayout *north, *down;
+    QVBoxLayout* all;
 
 public:
-  static bool commanual;
-  static alg_t algorythm;
-  static dap_t dap;
-  static bool showbbl;
-  static speed_type speed;
-  static QThread::Priority priority;
+    static bool commanual;
+    static alg_t algorythm;
+    static dap_t dap;
+    static bool showbbl;
+    static speed_type speed;
+    static QThread::Priority priority;
 
 
+    explicit Settings(QWidget* parent = nullptr);
 
-    Settings (QWidget * parent = 0);
+    [[nodiscard]] int getFlash() const
+    {
+        return flash_size;
+    }
 
-  int getFlash ()
-  {
-    return flash_size;
-  }
+    [[nodiscard]] int getRam() const
+    {
+        return ram_size;
+    }
 
-  int getRam ()
-  {
-    return ram_size;
-  }
+    QString getCom()
+    {
+        return com_name;
+    }
 
-  QString getCom (void)
-  {
-    return com_name;
-  }
+    [[nodiscard]] QString getCom(const int index) const
+    {
+        return com_combo->itemText(index);
+    }
 
-  QString getCom (int index)
-  {
-    return com_combo->itemText (index);
-  }
+    [[nodiscard]] mbc_t getMbc() const
+    {
+        if (mbc == MBC5 || mbc == RUMBLE)
+            return MBC5;
 
-  mbc_t getMbc ()
-  {
-    if (mbc == MBC5 || mbc == RUMBLE)
-      return MBC5;
-    else
-      return mbc;
-  }
-  bool isAuto ()
-  {
-    return auto_size;
-  }
+        return mbc;
+    }
 
-  bool isRamDisabled ()
-  {
+    [[nodiscard]] bool isAuto() const
+    {
+        return auto_size;
+    }
 
-    return (ram_combo->currentText () == "");
-  }
+    [[nodiscard]] bool isRamDisabled() const
+    {
+        return (ram_combo->currentText() == "");
+    }
 
-  void ram_types (int type);
-  void flash_types (int type);
-  void get_langs();
+    void ram_types(int type) const;
+    void flash_types(int type) const;
+    void get_langs() const;
 
-  public slots:
-  void setCom (int index);
-  void setMbc (int mbc_nr);
-  void setFlash (int index);
-  void setRam (int index);
-  void setLang (const QString & lang);
-  void setAuto (int state);
+public slots:
+    void setCom(int index);
+    void setMbc(int mbc_nr);
+    void setFlash(int index);
+    void setRam(int index);
+    void setLang(const QString& lang);
+    void setAuto(int state);
 signals:
-  void refresh_ram_buttons ();
-
+    void refresh_ram_buttons();
 };
 
 #endif
