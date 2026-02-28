@@ -43,6 +43,15 @@ From the project root, simply run `make` to configure and build the project.
 > Currently, the project doesn't support calling `make` with the parallel runners flag (`-j`).
 > It will, however, run the actual build step using `-j$(nproc)` for a faster compile.
 
+In order to use the cart flasher over USB, you will need to install the provided `udev` rules file and reload the `udev`
+service.
+
+```shell
+sudo cp 90-gbflash.rules /usr/lib/udev/rules.d
+sudo udevadm control --reload-rules
+sudo udevadm trigger
+```
+
 ## Windows
 
 Instructions coming soon! :)
