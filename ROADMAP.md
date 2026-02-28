@@ -15,3 +15,5 @@ These would be nice to add:
 - Migrate to CMake?
 - Static libftdi
 - macOS support
+- Tests with Qt Test
+- CI/CD
