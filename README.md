@@ -22,7 +22,7 @@ A Qt-based Game Boy cartridge dumper and flasher.
 
 - Qt 5 (Core and Widgets)
     - While it has not been tested, Qt 6 may also work
-- libusb (Unix)
+- libusb-1.0 (Unix)
 - libftd2xx (Windows)
 
 ---
@@ -34,7 +34,7 @@ A Qt-based Game Boy cartridge dumper and flasher.
 Install the required packages using your package manager. Below is an example install for Ubuntu:
 
 ```shell
-sudo apt install build-essential cmake qt5-default libusb-dev
+sudo apt install build-essential cmake qt5-default libusb-1.0-0-dev 
 ```
 
 > __Note:__<br>
