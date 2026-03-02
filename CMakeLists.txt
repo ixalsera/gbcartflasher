@@ -12,6 +12,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 
+## Add libftdi, making sure we don't build more than necessary
+set(SHAREDLIBS OFF CACHE BOOL "Build shared/dynamic libraries" FORCE)
+set(EXAMPLES OFF CACHE BOOL "Build example programs" FORCE)
+set(FTDI_EEPROM OFF CACHE BOOL "Build ftdi_eeprom" FORCE)
+
+add_subdirectory(vendor/libftdi)
+
 set(TS_FILES
         src/translations/gbcflsh_english.ts
         src/translations/gbcflsh_french.ts
@@ -89,8 +96,11 @@ endif ()
 
 target_link_libraries(GBCartFlasher PRIVATE
         Qt${QT_VERSION_MAJOR}::Widgets
-        ftdi
+        ftdi1-static
 )
+
+# libftdi doesn't seem to make headers available to us until we install?
+target_include_directories(GBCartFlasher PUBLIC vendor/libftdi/src)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
