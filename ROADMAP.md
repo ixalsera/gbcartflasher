@@ -12,8 +12,8 @@ These would be nice to add:
 - Validate ROM can be flashed to cart (see auto-set vars on rom load)
 - Validation routines for RAM?
 - Grab ROM info/boxart/etc on ROM/cart load from internet/cache
-- Migrate to CMake?
+- :white-checkmark: Migrate to CMake?
 - Static libftdi
 - macOS support
 - Tests with Qt Test
-- CI/CD
+- :white-checkmark: CI/CD
