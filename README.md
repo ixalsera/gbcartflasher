@@ -34,14 +34,21 @@ A Qt-based Game Boy cartridge dumper and flasher.
 Install the required packages using your package manager. Below is an example install for Ubuntu:
 
 ```shell
-sudo apt install build-essential make qt5-default libftdi-dev
+sudo apt install build-essential cmake qt5-default libftdi-dev
 ```
 
-From the project root, simply run `make` to configure and build the project.
-
 > __Note:__<br>
-> Currently, the project doesn't support calling `make` with the parallel runners flag (`-j`).
-> It will, however, run the actual build step using `-j$(nproc)` for a faster compile.
+> You may find that you cannot install Qt with `qt5-default`. In this case, install the regular version of Qt using
+> either `qtcreator` or the GUI installer for Qt.
+
+Build the project files:
+
+```shell
+mkdir -p build
+cmake -Bbuild
+cd build
+make
+```
 
 In order to use the cart flasher over USB, you will need to install the provided `udev` rules file and make sure your
 user is in the `plugdev` group.
