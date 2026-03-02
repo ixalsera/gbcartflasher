@@ -7,6 +7,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
+        with:
+          submodules: 'recursive'
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
         with:
@@ -15,7 +17,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential cmake libftdi-dev
+          sudo apt-get install -y build-essential cmake libusb-1.0-0-dev
       - name: Configure
         run: mkdir -p build && cmake -Bbuild
       - name: Build

@@ -22,7 +22,7 @@ A Qt-based Game Boy cartridge dumper and flasher.
 
 - Qt 5 (Core and Widgets)
     - While it has not been tested, Qt 6 may also work
-- libftdi (Unix)
+- libusb-1.0 (Unix)
 - libftd2xx (Windows)
 
 ---
@@ -34,19 +34,26 @@ A Qt-based Game Boy cartridge dumper and flasher.
 Install the required packages using your package manager. Below is an example install for Ubuntu:
 
 ```shell
-sudo apt install build-essential cmake qt5-default libftdi-dev
+sudo apt install build-essential cmake qt5-default libusb-1.0-0-dev 
 ```
 
 > __Note:__<br>
 > You may find that you cannot install Qt with `qt5-default`. In this case, install the regular version of Qt using
 > either `qtcreator` or the GUI installer for Qt.
 
+Clone the repository, making sure to recurse submodules for `libftdi`:
+
+```shell
+git clone --recurse-submodules https://github.com/ixalsera/gbcartflasher
+```
+
 Build the project files:
 
 ```shell
+cd gbcartflasher
 mkdir -p build
-cmake -Bbuild
 cd build
+cmake ..
 make
 ```
 
