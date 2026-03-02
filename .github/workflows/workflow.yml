@@ -1,0 +1,17 @@
+name: workflow.yml
+on:
+  push:
+    branches:
+      - develop
+      - main
+
+jobs:
+  test-build-nix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      - name: Install dependencies
+        run: apt install build-essential make qt5-default libftdi-dev
+      - name: Build
+        run: make
