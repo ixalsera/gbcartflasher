@@ -12,6 +12,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
       - name: Install dependencies
-        run: apt install build-essential make qt5-default libftdi-dev
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential make qt5-default libftdi-dev
       - name: Build
         run: make
